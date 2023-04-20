@@ -13,10 +13,10 @@ const User = sequelize.define('User', {
         autoIncrement: true
     },
     gameWins: {
-        type: DataTypes.STRING
+        type: DataTypes.INTEGER, defaultValue: 0
     },
     gameLoses: {
-        type: DataTypes.STRING
+        type: DataTypes.INTEGER, defaultValue: 0
     }
 })
 

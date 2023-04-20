@@ -16,7 +16,8 @@ const start = () => {
             const messageType = event.text;
             switch(messageType) {
                 case('/start'):
-                    await User.create({chatId})
+                    const user = await User.findOne({chatId})
+                    if(!user) await User.create({chatId})
                     return await bot.sendMessage(chatId, `Hello ${event.from.first_name}`)
                 case('/help'):
                     return await bot.sendMessage(chatId, 'template')

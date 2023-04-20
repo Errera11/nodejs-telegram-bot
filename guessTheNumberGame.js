@@ -32,15 +32,16 @@ module.exports = async (bot, chatId) => {
         chat[messId] = Math.floor(1 + Math.random() * 10)
         const number = event.data;
         const user = await User.findOne({chatId});
-        await bot.sendMessage(chatId, `You have ${user.gameWins} wins and ${user.gameLoses} loses!`);
         if(number == chat[messId].toString()) {
             user.gameWins += 1;
-            bot.removeListener("callback_query");
-            return await bot.sendMessage(messId, `You right! The number - ` + number);
+            await bot.sendMessage(messId, `You right! The number - ` + number);
         }
-        bot.removeListener("callback_query");
-        user.gameLoses += 1;
+        else {
+            user.gameLoses += 1;
+            await bot.sendMessage(messId, `You have mistaken, the number - ` + chat[messId]);
+        }
         await user.save();
-        return await bot.sendMessage(messId, `You have mistaken, the number - ` + chat[messId]);
+        bot.removeListener("callback_query");
+        return await bot.sendMessage(chatId, `You have ${user.gameWins} wins and ${user.gameLoses} loses!`);
     } )
 }
